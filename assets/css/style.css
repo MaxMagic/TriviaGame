@@ -1,6 +1,35 @@
 html,
 body,
+.row,
+.col-md-8,
 .container {
     height: 100%;
     width: 100%;
+}
+
+#gameRow1 {
+    width: 100%;
+    height: 30%;
+}
+
+#gameRow2 {
+    width: 100%;
+    height: 10%;
+}
+
+#gameRow3 {
+    width: 100%;
+    height: 60%;
+}
+
+#mainHeader {
+    height: 50%;
+}
+
+#timeRemaining {
+    width: 100%;
+}
+
+#questionArea {
+    height: 100%;
 }
