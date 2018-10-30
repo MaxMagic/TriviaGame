@@ -77,12 +77,12 @@ const myQuestions = [
 ];
 
 function askQ(){
-    question = myQuestions[Math.floor(Math.random() * 6)]
-    $("#questions").text(question.question);
-    $("#optionA").text(question.answers.optionA);
-    $("#optionB").text(question.answers.optionB);
-    $("#optionC").text(question.answers.optionC);
-    validAnswer = question.correctAnswer;
+    questionChoice = myQuestions[Math.floor(Math.random() * 6)]
+    $("#questions").text(questionChoice.question);
+    $("#optionA").text(questionChoice.answers.optionA);
+    $("#optionB").text(questionChoice.answers.optionB);
+    $("#optionC").text(questionChoice.answers.optionC);
+    validAnswer = questionChoice.correctAnswer;
     run();
 };
 
@@ -93,7 +93,6 @@ function run() {
   function decrement() {
     number--;
     $("#timeRemaining").html("<h2> Time Remaining: " + number + "</h2>");
-
     if (number === 0) {
         stop();
         $("#guessArea").text(timeupMessage);
@@ -116,6 +115,7 @@ function pickAnswer(arg){
     }
 }
 
+run();
 askQ();
 
 // Step 1: Display start button
