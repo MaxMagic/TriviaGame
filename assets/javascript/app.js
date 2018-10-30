@@ -20,8 +20,13 @@ On the final screen, show the number of correct answers, incorrect answers, and 
 var correctMessage = "Correct!";
 var incorrectMessage = "Sorry! Wrong Answer!";
 var timeupMessage = "Times up!"
+var question;
+var validAnswer;
+var userGuess;
+var intervalId;
 var rightAnswers = 0;
 var wrongAnswers = 0;
+var number = 15;
 
 const myQuestions = [
   {
@@ -71,6 +76,48 @@ const myQuestions = [
   }
 ];
 
+function askQ(){
+    question = myQuestions[Math.floor(Math.random() * 6)]
+    $("#questions").text(question.question);
+    $("#optionA").text(question.answers.optionA);
+    $("#optionB").text(question.answers.optionB);
+    $("#optionC").text(question.answers.optionC);
+    validAnswer = question.correctAnswer;
+    run();
+};
+
+function run() {
+    intervalId = setInterval(decrement, 1000);
+  }
+
+  function decrement() {
+    number--;
+    $("#timeRemaining").html("<h2> Time Remaining: " + number + "</h2>");
+
+    if (number === 0) {
+        stop();
+        $("#guessArea").text(timeupMessage);
+        setTimeout(askQ, 5000);
+    }
+}
+
+function stop() {
+    clearInterval(intervalId);
+}
+
+function pickAnswer(arg){
+    userGuess = arg;
+    if (userGuess === validAnswer){
+        $("#questionArea").html(correctMessage);
+        setTimeout(askQ, 5000);
+    } else {
+        $("#questionArea").html(incorrectMessage);
+        setTimeout(askQ, 5000);
+    }
+}
+
+askQ();
+
 // Step 1: Display start button
 //      - Perhaps use innerHTML tag for entire div
 // Step 2: Display questions and answers and timer - Each question has 15 seconds
@@ -81,20 +128,19 @@ const myQuestions = [
 // Step 5: Show number of questions correct. number of questions wrong and restart button that will 
 // call original function
 
-function ready(fn) {
-    if ( document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
-      // if the document is ready run our init function
-      init();
-    } else {
-      // if the document isn't ready, listen for when it is and then run our init function
-      document.addEventListener("DOMContentLoaded", init);
-    }
-};
+// function ready(fn) {
+//     if ( document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+//       // if the document is ready run our init function
+//       init();
+//     } else {
+//       // if the document isn't ready, listen for when it is and then run our init function
+//       document.addEventListener("DOMContentLoaded", init);
+//     }
+// };
 
-function init(){
-    // setup all of your listeners here so that they are only added once
-    $("#gameArea").html("<button>Start Game!<button>");
+// function init(){
+//     // setup all of your listeners here so that they are only added once
+//     var startButton = document.getElementById("startButton");
+//     startButton.addEventListener("click", startGame);
+// };
 
-    var startButton = document.getElementById("startButton");
-    startButton.addEventListener("click", startGame);
-};
