@@ -9,7 +9,7 @@ var questionChoice;
 var rightAnswers = 0;
 var wrongAnswers = 0;
 var number = 15;
-var questionNumber = 0;
+var questionNumber = 1;
 
 const myQuestions = [
   {
@@ -60,7 +60,8 @@ const myQuestions = [
 ];
 
 function askQ(){
-    if (questionNumber < 5){
+    run();
+    if (questionNumber <= 5){
         questionChoice = myQuestions[Math.floor(Math.random() * 5)]
         $("#questions").text(questionChoice.question);
         $("#optionA").text(questionChoice.answers.optionA);
@@ -68,61 +69,53 @@ function askQ(){
         $("#optionC").text(questionChoice.answers.optionC);
         validAnswer = questionChoice.correctAnswer;
         questionNumber++;
-        run();
     } 
     
 };
 
 function run() {
+    number = 15;
     intervalId = setInterval(decrement, 1000);
-    console.log(intervalId);
   }
 
   function decrement() {
     number--;
     $("#timeRemaining").html("<h2> Time Remaining: " + number + "</h2>");
-    if (number === 0) {
-        stop();
-        $("#questionArea").text(timeupMessage);
-        console.log(number);
-        console.log(rightAnswers);
-        number = 15;
-        askQ();
+    if (number === 0 && questionNumber > 5){
+        $("#messageArea").text("Number of Correct Answers: " + rightAnswers + "\n" +
+        "Number of Incorrect Answers: " + wrongAnswers);
+        questionNumber = 1
+        return;
+    } else if (number === 0 && questionNumber <= 5){
+        $("#messageArea").text(timeupMessage);
+        clearInterval(intervalId);
+        return;
     }
+
 }
 
-function stop() {
-    clearInterval(intervalId);
-}
 
 function pickAnswer(arg){
     userGuess = arg;
     if (userGuess === validAnswer){
-        $("#questionArea").text(correctMessage);
+        questionNumber++;
+        console.log(questionNumber);
+        $("#messageArea").text(correctMessage);
         rightAnswers++;
-        console.log(rightAnswers);
-        endGame();
-        console.log(intervalId);
-        stop();
+        number = 15;
+        clearInterval(intervalId);
+        run();
         askQ();
     } else {
-        $("#questionArea").text(incorrectMessage);
+        questionNumber++;
+        $("#messageArea").text(incorrectMessage);
         wrongAnswers++;
-        endGame()
-        stop();
+        number = 15;
+        clearInterval(intervalId);
+        run();
         askQ();
     }
 }
 
-function endGame(){
-    if (questionNumber === 5 && number === 0){
-        console.log(questionNumber);
-        console.log(number);
-        $("#questionArea").text("Number of Correct Answers: " + rightAnswers +
-        "Number of Correct Answers: " + wrongAnswers);
-        stop();
-    }
-}
 askQ();
-
 
